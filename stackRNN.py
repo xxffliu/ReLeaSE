@@ -55,7 +55,10 @@ class StackAugmentedRNN(nn.Module):
             raise NotImplementedError(self.optimizer + ' is not implemented. Use \'Adadelta\' instead')
 
     def load_model(self, path):
-        weights = torch.load(path)
+        if not self.use_cuda:
+            weights = torch.load(path, map_location='cpu')
+        else:
+            weights = torch.load(path)
         self.load_state_dict(weights)
 
     def change_lr(self, new_lr):
@@ -223,7 +226,10 @@ class StackAugmentedGRU(nn.Module):
             raise NotImplementedError(self.optimizer + ' is not implemented. Use \'Adadelta\' instead')
 
     def load_model(self, path):
-        weights = torch.load(path)
+        if not self.use_cuda:
+            weights = torch.load(path, map_location='cpu')
+        else:
+            weights = torch.load(path)
         self.load_state_dict(weights)
 
     def change_lr(self, new_lr):
